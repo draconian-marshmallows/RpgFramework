@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace DraconianMarshmallows.RpgFramework.Structures
 {
-    public class Character
+    [Serializable] public class Character
     {
         private const int LEVEL_RANGE = 100;
 
