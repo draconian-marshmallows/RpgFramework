@@ -16,17 +16,17 @@ namespace DraconianMarshmallows.RpgFramework
         private void Start()
         {
             #region DEBUG TEST CODE
-            player = new Character
-            {
-                ChosenClass = Character.Class.Warrior,
-                Experience = 100
-            };
-
-            string characterJson = SavePlayer();
-            Debug.Log("Player saved: " + characterJson + " @ " + Application.persistentDataPath);
-
-            player = LoadPlayer();
-            Debug.Log("Loaded player: " + player.Experience);
+            // player = new Character
+            // {
+            //     ChosenClass = Character.Class.Warrior,
+            //     Experience = 100
+            // };
+            //
+            // string characterJson = SavePlayer();
+            // Debug.Log("Player saved: " + characterJson + " @ " + Application.persistentDataPath);
+            //
+            // player = LoadPlayer();
+            // Debug.Log("Loaded player: " + player.Experience);
             #endregion
         }
 
