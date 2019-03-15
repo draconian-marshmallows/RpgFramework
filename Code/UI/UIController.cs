@@ -14,12 +14,6 @@ public class UIController : ParentUIController
 
     override protected void Start()
     {
-        characterCreationPanel.OnCreateCharacter = onCreateCharacter;
-    }
-
-    private void onCreateCharacter(Character character)
-    {
-        Debug.Log("Creating character: " + JsonConvert.SerializeObject(character));
-        Debug.LogWarning("TODO:: ACTUALLY CREATE CHARACTER AND START GAME !!!");
+        // characterCreationPanel.OnCreateCharacter = onCreateCharacter;
     }
 }

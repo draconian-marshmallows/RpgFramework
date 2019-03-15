@@ -30,7 +30,7 @@ namespace DraconianMarshmallows.RpgFramework
             #endregion
         }
 
-        private Character LoadPlayer()
+        public Character LoadPlayer()
         {
             // var fileStream = File.OpenRead(Application.persistentDataPath + PLAYER_DATA_FILE_NAME);
             // string playerJson = fileStream.Read(new byte[fileStream.Length], 0, fileStream.Length as int);
@@ -39,8 +39,15 @@ namespace DraconianMarshmallows.RpgFramework
             return JsonConvert.DeserializeObject<Character>(playerJson);
         }
 
-        private string SavePlayer()
+        public void SavePlayer(Character character)
         {
+            player = character;
+            SavePlayer();
+        }
+
+        public string SavePlayer()
+        {
+            Debug.Log("Player saved: " + player + " @ " + Application.persistentDataPath);
             var characterJson = JsonConvert.SerializeObject(player);
             var streamWriter = File.CreateText(Application.persistentDataPath + PLAYER_DATA_FILE_NAME);
             streamWriter.Write(characterJson);
