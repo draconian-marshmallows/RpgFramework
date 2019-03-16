@@ -9,8 +9,13 @@ using UnityEngine;
 
 public class MasterController : MonoBehaviour
 {
+    private enum Mode { INITIALIZING, PLAYING }
+
     [SerializeField] private DataManager dataManager;
+    [SerializeField] private UIController uiController;
     [SerializeField] private CharacterCreationPanel characterCreationPanel;
+
+    private Mode currentMode = Mode.INITIALIZING;
 
     protected virtual void Start()
     {
@@ -20,8 +25,9 @@ public class MasterController : MonoBehaviour
     private void onCreateCharacter(Character character)
     {
         Debug.Log("Creating character: " + JsonConvert.SerializeObject(character));
-        Debug.LogWarning("TODO:: ACTUALLY CREATE CHARACTER AND START GAME !!!");
 
         dataManager.SavePlayer(character);
+        uiController.DisplayInPlayUI();
+        currentMode = Mode.PLAYING;
     }
 }
