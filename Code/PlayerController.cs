@@ -51,8 +51,6 @@ public class PlayerController : MonoBehaviour
             return;
 
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitPoint, 2000))
-        {
             navMeshAgent.SetDestination(hitPoint.point);
-        }
     }
 }
