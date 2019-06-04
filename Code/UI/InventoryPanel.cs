@@ -1,10 +1,7 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using DraconianMarshmallows.RpgFramework.Code.Scriptables;
-using DraconianMarshmallows.RpgFramework.Code.Structures.Inventory;
 using DraconianMarshmallows.RpgFramework.Structures.Inventory;
-using JetBrains.Annotations;
-using UnityEngine;
 
 namespace DraconianMarshmallows.RpgFramework.Code.UI
 {
@@ -25,7 +22,7 @@ namespace DraconianMarshmallows.RpgFramework.Code.UI
             {
                 itemMeta = meta.getMetaForItem(item) as ItemMeta;
                 
-                var button = Instantiate<BaseInventoryButton>(itemButtonPrefab, inventoryContainer, true);
+                var button = Instantiate(itemButtonPrefab, inventoryContainer, true);
                 if (itemMeta == null) continue;
                 
                 button.Icon = itemMeta.Icon;

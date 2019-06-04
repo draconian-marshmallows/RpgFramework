@@ -1,34 +1,32 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-using DraconianMarshmallows.UI;
-
+﻿using DraconianMarshmallows.UI;
 using UnityEngine;
 
-public class TitleScreen : UIBehavior
+namespace DraconianMarshmallows.RpgFramework.Code.UI
 {
-    [SerializeField] private UIBehavior characterCreationPanel;
-    [SerializeField] private UIBehavior loadGamePanel;
-
-    [SerializeField] private ButtonPlus startButton;
-    [SerializeField] private ButtonPlus loadButton;
-
-    override protected void Start()
+    public class TitleScreen : UIBehavior
     {
-        startButton.onClick.AddListener(onClickStart);
-        loadButton.onClick.AddListener(onClickLoad);
-    }
+        [SerializeField] private UIBehavior characterCreationPanel;
+//        [SerializeField] private UIBehavior loadGamePanel;
 
-    private void onClickStart()
-    {
-        SetActive(false);
-        characterCreationPanel.SetActive(true);
-    }
+        [SerializeField] private ButtonPlus startButton;
+        [SerializeField] private ButtonPlus loadButton;
 
-    private void onClickLoad()
-    {
-        SetActive(false);
-        loadGamePanel.SetActive(true);
+        protected override void Start()
+        {
+            startButton.onClick.AddListener(onClickStart);
+            loadButton.onClick.AddListener(onClickLoad);
+        }
+
+        private void onClickStart()
+        {
+            SetActive(false);
+            characterCreationPanel.SetActive(true);
+        }
+
+        private void onClickLoad()
+        {
+            SetActive(false);
+//            loadGamePanel.SetActive(true);
+        }
     }
 }
