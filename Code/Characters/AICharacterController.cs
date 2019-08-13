@@ -1,30 +1,29 @@
 using System;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityStandardAssets.Characters.ThirdPerson;
 
 namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
 {
-    [RequireComponent(typeof (UnityEngine.AI.NavMeshAgent))]
-    [RequireComponent(typeof (ThirdPersonCharacter))]
-    public class AICharacterControl : MonoBehaviour
+    public class AICharacterController : MonoBehaviour
     {
-        private UnityEngine.AI.NavMeshAgent agent { get; set; }  // the navmesh agent required for the path finding.
-        private ThirdPersonCharacter character { get; set; }     // the character we are controlling.
         private Vector3 targetPosition { get; set; }
 
-        private const string HIT = "hit";
+//        private const string HIT = "hit";
         private const string ATTACK1 = "Fire1";
-        private const string ATTACK1_START = "StartAttack1";
         private const string HORIZONTAL = "Horizontal";
         private const string VERTICAL = "Vertical";
 
         private const float MIN_DIRECTIONAL_VALUE = .1f;
         private const float DIRECTION_MULTIPLIER = 5f;
+        
+        private static readonly int START_ATTACK_1 = Animator.StringToHash("StartAttack1");
 
-        // [SerializeField] private NavMeshAgent navMeshAgent;
+//        [SerializeField] private AnimationClip attack1Clip;
         [SerializeField] private Animator animator;
-        [SerializeField] private AnimationClip attack1Clip;
         [SerializeField] private Transform directionIndicator;
+        [SerializeField] private NavMeshAgent agent;
+        [SerializeField] private ThirdPersonCharacter character;
 
         private float horizontalAxis;
         private float verticalAxis;
@@ -37,17 +36,8 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
             // attack1Clip.AddEvent(attack1HitEvent);
             // attack1Clip.events += onAttack1Hit;
 
-            agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
-            character = GetComponent<ThirdPersonCharacter>();
-
 	        agent.updateRotation = false;
 	        agent.updatePosition = true;
-        }
-
-        public void Hit()
-        {
-            Debug.Log("HIT METHOD CALLED !!!");
-            animator.SetBool(ATTACK1_START, false);
         }
 
         private void Update()
@@ -68,6 +58,12 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
             checkForClick();
         }
 
+        public void Hit()
+        {
+            Debug.Log("HIT METHOD CALLED !!!");
+            animator.SetBool(START_ATTACK_1, false);
+        }
+
         // private void onAttack1Hit()
         // {
         //     Debug.Log("WE'RE MAKING A HIT !!!!!!!!!!!!!!!!!!!!");
@@ -76,11 +72,13 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
 
         private void checkForCombatInput()
         {
-            if (Input.GetButtonDown(ATTACK1))
-            {
-//                Debug.Log("stuff is dying !!!!!!!"); 
-                animator.SetBool(ATTACK1_START, true);
-            }
+            // TODO:: Set up attack-1 input that doesn't clash with LMB. 
+            // TODO:: Switch off attack flag at end of attack animation. 
+//            if (Input.GetButtonDown(ATTACK1))
+//            {
+////                Debug.Log("stuff is dying !!!!!!!"); 
+//                animator.SetBool(START_ATTACK_1, true);
+//            }
         }
 
         private bool checkForDirectionalControl()
