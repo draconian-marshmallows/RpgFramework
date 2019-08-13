@@ -10,6 +10,9 @@ This requires the following steps:
 under a directory named `DraconianMarshmallows/RpgFramework` in your 
 project's Assets directory. 
 
+- Enter the submodule on your system and fetch/pull to make sure you 
+have the latest version. 
+
 - Create a prefab-variant from our character controller prefab and add 
 it to your project. 
 ```
