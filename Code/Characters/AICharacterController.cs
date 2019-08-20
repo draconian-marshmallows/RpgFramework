@@ -1,4 +1,5 @@
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityStandardAssets.Characters.ThirdPerson;
@@ -7,9 +8,6 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
 {
     public class AICharacterController : MonoBehaviour
     {
-        private Vector3 targetPosition { get; set; }
-
-//        private const string HIT = "hit";
         private const string ATTACK1 = "Fire1";
         private const string HORIZONTAL = "Horizontal";
         private const string VERTICAL = "Vertical";
@@ -17,9 +15,8 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
         private const float MIN_DIRECTIONAL_VALUE = .1f;
         private const float DIRECTION_MULTIPLIER = 5f;
         
-        private static readonly int START_ATTACK_1 = Animator.StringToHash("StartAttack1");
+        private static readonly int Attack1Trigger = Animator.StringToHash("Attack1Trigger");
 
-//        [SerializeField] private AnimationClip attack1Clip;
         [SerializeField] private Animator animator;
         [SerializeField] private Transform directionIndicator;
         [SerializeField] private NavMeshAgent agent;
@@ -28,24 +25,39 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
         private float horizontalAxis;
         private float verticalAxis;
         private RaycastHit hitPoint;
+        private Vector3 targetPosition;
+        private Vector3 lastTargetPosition;
+        private Camera mainCamera;
+        private bool isCameraNotNull;
+        private Dictionary<CharacterAnimationState, CharacterStateTransitionListener> animatorStates;
 
         private void Start()
         {
-            // var attack1HitEvent = new AnimationEvent();
-            // attack1HitEvent.functionName = "onAttack1Hit";
-            // attack1Clip.AddEvent(attack1HitEvent);
-            // attack1Clip.events += onAttack1Hit;
+            isCameraNotNull = mainCamera != null;
+            mainCamera = Camera.main;
 
-	        agent.updateRotation = false;
+            animatorStates = animator.GetBehaviours<CharacterStateTransitionListener>()
+                .ToDictionary(listener => listener.State);
+
+            var stateTransitionListener = animatorStates[CharacterAnimationState.ATTACK_1];
+            stateTransitionListener.OnStateEnterEvents += OnAttack1StateEnter;
+            stateTransitionListener.OnStateExitEvents += OnAttack1StateExit;
+
+            agent.updateRotation = false;
 	        agent.updatePosition = true;
+            lastTargetPosition = targetPosition;
         }
 
         private void Update()
         {
             checkForCombatInput();
 
-            if (targetPosition != null)
+            if (targetPosition != lastTargetPosition)
+            {
+//                Debug.Log("setting destination !!!");
                 agent.SetDestination(targetPosition);
+                lastTargetPosition = targetPosition;
+            }
 
             if (agent.remainingDistance > agent.stoppingDistance)
                 character.Move(agent.desiredVelocity, false, false);
@@ -58,27 +70,13 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
             checkForClick();
         }
 
-        public void Hit()
-        {
-            Debug.Log("HIT METHOD CALLED !!!");
-            animator.SetBool(START_ATTACK_1, false);
-        }
-
-        // private void onAttack1Hit()
-        // {
-        //     Debug.Log("WE'RE MAKING A HIT !!!!!!!!!!!!!!!!!!!!");
-        //     animator.SetBool(ATTACK1_START, false);
-        // }
-
         private void checkForCombatInput()
         {
             // TODO:: Set up attack-1 input that doesn't clash with LMB. 
-            // TODO:: Switch off attack flag at end of attack animation. 
-//            if (Input.GetButtonDown(ATTACK1))
-//            {
-////                Debug.Log("stuff is dying !!!!!!!"); 
-//                animator.SetBool(START_ATTACK_1, true);
-//            }
+            if (Input.GetButtonDown(ATTACK1))
+            {
+                animator.SetTrigger(Attack1Trigger);
+            }
         }
 
         private bool checkForDirectionalControl()
@@ -95,6 +93,7 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
             localPosition.z = verticalAxis * DIRECTION_MULTIPLIER;
             directionIndicator.localPosition = localPosition;
             
+//            Debug.Log("Directional controls setting target !!!");
             targetPosition = directionIndicator.position;
             return true;
         }
@@ -104,8 +103,21 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
             if (!Input.GetMouseButtonDown(0))
                 return;
 
-            if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitPoint, 2000))
+            if (isCameraNotNull && 
+                Physics.Raycast(mainCamera.ScreenPointToRay(Input.mousePosition), out hitPoint, 2000))
                 targetPosition = hitPoint.point;
+        }
+
+        private void OnAttack1StateEnter(Animator ignore, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            Debug.Log("Character started attack !!!");
+            agent.stoppingDistance = 100f;
+        }
+
+        private void OnAttack1StateExit(Animator ignore, AnimatorStateInfo stateInfo, int layerIndex)
+        {
+            Debug.Log("Character finished attack !!!");
+            agent.stoppingDistance = .2f;
         }
     }
 }

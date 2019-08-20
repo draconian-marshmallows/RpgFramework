@@ -476,7 +476,7 @@ GameObject:
   - component: {fileID: 19597056}
   - component: {fileID: 11450346}
   m_Layer: 0
-  m_Name: AIThirdPersonCharacter
+  m_Name: AIThirdPersonCharacterExample
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
