@@ -16,6 +16,7 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
         private const float DIRECTION_MULTIPLIER = 5f;
         
         private static readonly int Attack1Trigger = Animator.StringToHash("Attack1Trigger");
+        private int attack1 = -1;
 
         [SerializeField] private Animator animator;
         [SerializeField] private Transform directionIndicator;
@@ -33,8 +34,12 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
 
         private void Start()
         {
-            isCameraNotNull = mainCamera != null;
+            attack1 = Animator.StringToHash("Attack1Trigger");
             mainCamera = Camera.main;
+            isCameraNotNull = mainCamera != null;
+
+            Debug.Log("attack 1: " + attack1);
+            Debug.Log(mainCamera);
 
             animatorStates = animator.GetBehaviours<CharacterStateTransitionListener>()
                 .ToDictionary(listener => listener.State);
