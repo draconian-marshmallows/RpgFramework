@@ -34,4 +34,10 @@ present: `Animator`, `NavMeshAgent`, and `ThirdPersonCharacter`.
 GameObject and dragging the model into the three corresponding slots in 
 the inspector for the AI Character Controller component. 
 
+- TODO:: Add instructions to setup the direction indicators parent-
+transform. 
+
 - Now you can save the prefab-variant and drop it into your scene. 
+
+- TODO:: Add instructions to add nav-mesh surface for character to 
+run around on. 
