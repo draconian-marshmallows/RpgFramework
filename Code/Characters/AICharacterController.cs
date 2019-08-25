@@ -80,6 +80,7 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
             // TODO:: Set up attack-1 input that doesn't clash with LMB. 
             if (Input.GetButtonDown(ATTACK1))
             {
+                Debug.Log("attacking : " + animator);
                 animator.SetTrigger(Attack1Trigger);
             }
         }
