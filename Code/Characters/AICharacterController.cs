@@ -16,7 +16,6 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
         private const float DIRECTION_MULTIPLIER = 5f;
         
         private static readonly int Attack1Trigger = Animator.StringToHash("Attack1Trigger");
-        private int attack1 = -1;
 
         [SerializeField] private Animator animator;
         [SerializeField] private Transform directionIndicator;
@@ -34,12 +33,8 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
 
         private void Start()
         {
-            attack1 = Animator.StringToHash("Attack1Trigger");
             mainCamera = Camera.main;
             isCameraNotNull = mainCamera != null;
-
-            Debug.Log("attack 1: " + attack1);
-            Debug.Log(mainCamera);
 
             animatorStates = animator.GetBehaviours<CharacterStateTransitionListener>()
                 .ToDictionary(listener => listener.State);
@@ -59,7 +54,6 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
 
             if (targetPosition != lastTargetPosition)
             {
-//                Debug.Log("setting destination !!!");
                 agent.SetDestination(targetPosition);
                 lastTargetPosition = targetPosition;
             }
@@ -99,7 +93,6 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
             localPosition.z = verticalAxis * DIRECTION_MULTIPLIER;
             directionIndicator.localPosition = localPosition;
             
-//            Debug.Log("Directional controls setting target !!!");
             targetPosition = directionIndicator.position;
             return true;
         }
@@ -116,13 +109,11 @@ namespace DraconianMarshmallows.RpgFramework.Characters.ThirdPerson
 
         private void OnAttack1StateEnter(Animator ignore, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("Character started attack !!!");
             agent.stoppingDistance = 100f;
         }
 
         private void OnAttack1StateExit(Animator ignore, AnimatorStateInfo stateInfo, int layerIndex)
         {
-            Debug.Log("Character finished attack !!!");
             agent.stoppingDistance = .2f;
         }
     }
