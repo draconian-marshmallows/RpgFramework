@@ -362,7 +362,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47896aeada3489c4e9350fc6d6b9f149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemsMetaData: {fileID: 11400000, guid: d04f5d77357e61446b9db4e0d4865fc9, type: 2}
+  itemsMetaData: {fileID: 11400000, guid: ec162d09a31300a4d83366b836269d5a, type: 2}
   itemButtonPrefab: {fileID: 7298754826071958772, guid: 1a527bd7eee8bdd45998b07e31d9dc39,
     type: 3}
   inventoryContainer: {fileID: 818616606500618964}
@@ -754,7 +754,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1644455263983408449}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9571081
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -794,7 +794,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000003780039}
+  m_AnchoredPosition: {x: 0, y: 12.867559}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &5622253496047389754

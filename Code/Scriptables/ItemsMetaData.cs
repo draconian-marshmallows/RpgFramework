@@ -8,7 +8,7 @@ namespace DraconianMarshmallows.RpgFramework.Code.Scriptables
     [CreateAssetMenu(menuName="DraconianMarshmallows/RpgFramework/ItemsMetaData", fileName="ItemsMetaData")]
     public class ItemsMetaData : BaseItemsMetaData
     {
-        [SerializeField] private EnumToMeta[] enumToMetas;
+        [SerializeField] private EnumToMeta[] enumToMeta;
         
 //        [SerializeField] private BaseItemMeta shotGlass;
 //        [SerializeField] private BaseItemMeta squeakyRubberHamburger;
@@ -17,15 +17,13 @@ namespace DraconianMarshmallows.RpgFramework.Code.Scriptables
 
         private void OnEnable()
         {
-            enumToMetaMap = new Dictionary<Enum, BaseItemMeta>();
-            foreach (var enumToMeta in enumToMetas)
-            {
-                enumToMetaMap.Add(enumToMeta.type, enumToMeta.itemMeta);
-            }
+            Debug.Log("on enable !!!");
             
-//            {
-//                {Item.Type.SHOT_GLASS, shotGlass}
-//            };
+            enumToMetaMap = new Dictionary<Enum, BaseItemMeta>();
+            foreach (var meta in enumToMeta)
+            {
+                enumToMetaMap.Add(meta.type, meta.itemMeta);
+            }
         }
 
         protected override Dictionary<Enum, BaseItemMeta> getEnumToMetaMap()
