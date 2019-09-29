@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,27 +8,46 @@ using DraconianMarshmallows.RpgFramework.Structures;
 using Newtonsoft.Json;
 using UnityEngine;
 
-public class MasterController : MonoBehaviour
+namespace DraconianMarshmallows.RpgFramework
 {
-    private enum Mode { INITIALIZING, PLAYING }
-
-    [SerializeField] private DataManager dataManager;
-    [SerializeField] private UIController uiController;
-    [SerializeField] private CharacterCreationPanel characterCreationPanel;
-
-    private Mode currentMode = Mode.INITIALIZING;
-
-    protected virtual void Start()
+    public class MasterController : MonoBehaviour, IMasterController
     {
-        characterCreationPanel.OnCreateCharacter = onCreateCharacter;
-    }
+        public static MasterController Instance { get; private set; }
 
-    private void onCreateCharacter(Character character)
-    {
-        Debug.Log("Creating character: " + JsonConvert.SerializeObject(character));
+        private enum Mode { INITIALIZING, PLAYING }
+        
+        [SerializeField] private DataManager dataManager;
+        [SerializeField] private UIController uiController;
+        [SerializeField] private SceneController sceneController;
+        [SerializeField] private CharacterCreationPanel characterCreationPanel;
 
-        dataManager.SavePlayer(character);
-        uiController.DisplayInPlayUI();
-        currentMode = Mode.PLAYING;
+        private Mode currentMode = Mode.INITIALIZING;
+
+        protected virtual void Awake()
+        {
+            Instance = this;
+        }
+
+        protected virtual void Start()
+        {
+            // FIX:: This should only be accessed through the main uiController. 
+            if (characterCreationPanel) characterCreationPanel.OnCreateCharacter = onCreateCharacter;
+
+            sceneController.LoadStartScene();
+        }
+
+        public void OnLevelStarted(ILevelController controller)
+        {
+            Debug.Log("Level controller called back that it's started: " + controller);
+        }
+
+        private void onCreateCharacter(Character character)
+        {
+            Debug.Log("Creating character: " + JsonConvert.SerializeObject(character));
+
+            dataManager.SavePlayer(character);
+            uiController.DisplayInPlayUI();
+            currentMode = Mode.PLAYING;
+        }
     }
 }
