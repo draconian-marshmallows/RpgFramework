@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using DraconianMarshmallows.RpgFramework;
+using DraconianMarshmallows.RpgFramework.Code;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : BasePlayerController
 {
     private const string HORIZONTAL = "Horizontal";
     private const string VERTICAL   = "Vertical";
 
-    private const float MIN_DIRECITONAL_VALUE   = .1f;
+    private const float MIN_DIRECTIONAL_VALUE   = .1f;
     private const float DIRECTION_MULTIPLIER    = 5f;
 
     [SerializeField] private NavMeshAgent navMeshAgent;
     [SerializeField] private Transform directionIndicator;
 
-    private float horizontalAxis    = 0;
-    private float verticalAxis      = 0;
+    private float horizontalAxis;
+    private float verticalAxis;
     private RaycastHit hitPoint;
 
     private void Update() // TODO:: plug in UpdateManager. 
@@ -32,8 +34,8 @@ public class PlayerController : MonoBehaviour
         horizontalAxis  = Input.GetAxis(HORIZONTAL);
         verticalAxis    = Input.GetAxis(VERTICAL);
 
-        if (Mathf.Abs(horizontalAxis) < MIN_DIRECITONAL_VALUE 
-            && Mathf.Abs(verticalAxis) < MIN_DIRECITONAL_VALUE)
+        if (Mathf.Abs(horizontalAxis) < MIN_DIRECTIONAL_VALUE 
+            && Mathf.Abs(verticalAxis) < MIN_DIRECTIONAL_VALUE)
             return false;
 
         var localPosition = directionIndicator.localPosition;
